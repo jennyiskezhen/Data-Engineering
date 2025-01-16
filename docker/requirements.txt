@@ -1,0 +1,13 @@
+greenlet==3.1.1
+numpy==2.2.1
+pandas==2.2.3
+psycopg==3.2.3
+psycopg-binary==3.2.3
+psycopg-pool==3.2.4
+psycopg2-binary==2.9.10
+python-dateutil==2.9.0.post0
+pytz==2024.2
+six==1.17.0
+SQLAlchemy==2.0.37
+typing_extensions==4.12.2
+tzdata==2024.2
