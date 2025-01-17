@@ -24,5 +24,4 @@ vendor/pkg/
 pyenv
 Vagrantfile
 
-ny_taxi_postgres_data/
 *.csv
