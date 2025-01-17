@@ -15,7 +15,7 @@ variable "location" {
 
 variable "bq_dataset_name" {
   description = "My BigQuery Dataset Name"
-  default     = "ny-taxi-dataset"
+  default     = "ny_taxi_dataset"
 }
 
 variable "gcs_bucket_name" {
