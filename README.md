@@ -4,7 +4,7 @@ In this repository I summarize the data engineering tools that I implemented fro
 
 The used datasets are from the NYC Taxi and Limousine Commission (TLC) trip record data, which are public records and can be found here: <https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page>
 
-### Module 1: Containerization (Docker) and Infrastructure as Code (Terraform)
+### 1. Containerization (Docker) and Infrastructure as Code (Terraform)
 
 I created a **Postgres** database Docker container and designed a data ingestion script using Python.  After ingesting the dataset to Postgres using Docker, I connected Postgres and pgAdmin (a user interface for Postgres) using Docker Compose. In pgAdmin, I explored the NYC taxi ride dataset using SQL.
 
