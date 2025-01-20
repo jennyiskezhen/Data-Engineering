@@ -1,4 +1,4 @@
-## Docker & SQL
+## Docker, SQL and Terraform Workflow
 
 #### 1. Run docker with python image
 ```
@@ -59,7 +59,7 @@ having
 order by trip_total desc;
 ```
 
-#### 6. Join the same dataset twice for different usage
+#### 6. Join the same dataset twice for different usages
 ```
 select
 	cast(lpep_pickup_datetime as date) data_pickup,
@@ -74,7 +74,7 @@ join zones zoff
 where 
 	EXTRACT(YEAR from (cast(lpep_pickup_datetime as date))) = 2019
 	and EXTRACT(month from (cast(lpep_pickup_datetime as date))) = 10
-    and zup."Zone" = 'East Harlem North'
+	and zup."Zone" = 'East Harlem North'
 order by tip_amount desc;
 ```
 
