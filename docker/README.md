@@ -1,4 +1,4 @@
-## Docker, SQL and Terraform Workflow
+## Docker, SQL and Terraform
 
 #### 1. Run docker with python image
 ```
