@@ -1,4 +1,4 @@
-id: 06_gcp_taxi
+id: gcp_taxi
 namespace: zoomcamp
 description: |
   The CSV Data used in the course: https://github.com/DataTalksClub/nyc-tlc-data/releases
@@ -15,7 +15,7 @@ inputs:
     displayName: Select year
     values: ["2019", "2020"]
     defaults: "2019"
-    allowCustomValue: true # allows you to type 2021 from the UI for the homework 🤗
+    allowCustomValue: true
 
   - id: month
     type: SELECT
