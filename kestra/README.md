@@ -10,7 +10,7 @@
 
 
 #### 2. Inputs and Variables in Kestra
-`{{inputs.taxi}}` directly render the dynamic variable.
+`{{inputs.taxi}}` directly render the dynamic variable. <br>
 `{{render(vars.file)}}` requires the `render()` method.
 
 #### 3. Table and staging-table for Postgres
