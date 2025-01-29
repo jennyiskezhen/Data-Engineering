@@ -1,17 +1,17 @@
 ## Data Engineering Tools
 
-In this repository, I summarize the data engineering tools that I implemented from joining the data-engineering-zoomcamp by DataTalksClub. The complete zoom camp syllabus can be found here: <https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main>
+In this repository, I summarize the data engineering tools that I implemented from joining the data-engineering-zoomcamp by DataTalksClub. The complete zoomcamp syllabus can be found here: <https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main>
 
-The datasets come from the NYC Taxi and Limousine Commission (TLC) trip record data, which are public records and can be found here: <https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page>
+The datasets come from the NYC Taxi and Limousine Commission (TLC) trip record data, which are public records that can be found here: <https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page>
 
 ### 1. Containerization (Docker) and Infrastructure as Code (Terraform)
 
-I created a `Postgres` database Docker container and designed a data ingestion script using Python.  After ingesting the dataset to Postgres using **Docker**, I connected Postgres and pgAdmin (a user interface for Postgres) using Docker Compose. In pgAdmin, I explored the NYC taxi ride dataset using SQL.
+I created a `Postgres` database Docker container and designed a data ingestion script using Python.  After ingesting the dataset to Postgres using **Docker**, I connected Postgres and pgAdmin (a graphical user interface for Postgres) using Docker Compose. In pgAdmin, I explored the NYC taxi ride dataset using SQL.
 
-For cloud storage and cloud computing, I used Google Cloud Platform (GCP). I created resources including `cloud storage bucket (GCS)` and `BigQuery` dataset in GCP using **Terraform**. I also created a VM instance to run docker and terraform.
+I used Google Cloud Platform (GCP) for cloud storage and cloud computing. I created resources including `cloud storage bucket (GCS)` and `BigQuery dataset` in GCP using **Terraform**. I also created a VM instance to run docker and terraform.
 
 
-#### Docker specifics
+#### 1.1 Docker
 
 Create a docker network
 
@@ -52,6 +52,11 @@ docker run -it \
     --table_name=green_taxi_trips \
     --url=${URL}
 ```
+
+#### 1.2 Terraform
+- `terraform init`: Downloading the provider plugins and setting up backend
+- `terraform apply -auto-aprove`: Generating proposed changes and auto-executing the plan
+- `terraform destroy`: Remove all resources managed by terraform
 
 ### 2. Workflow Orchestration (Kestra)
 I extracted and loaded the datasets to `Postgres` and `GCP` using the workflow orchestration platform **Kestra**. The datasets contained real-time record for two types of taxi (yellow and green) for each month. Since the datasets are split by month, I processed and merged the datasets into one table using SQL in Kestra. I implemented scheduling to load the data automatically in each month in the future, and to backfill the missing data from previous months. 
@@ -100,6 +105,90 @@ tasks:
 	6. Purge file in Kestra
 pluginDefaults: #connect to GCP
 triggers: #here are the schedules, backfill can be enabled in the tab
+```
+### 3. BigQuery - Best practices, ML model and model deployment
+BigQuery can be used to query the dataset, build and apply a machine learning model on the dataset.
+
+#### 3.1 Create table with partition and cluster
+
+**Partition** is mostly used for timestamp column, and for filtering/aggregation on one  column. It can reduce BigQuery cost given more contained processing.<br>
+
+**Cluster** is used for column with a wider range of schema. It is often used for ordering and sorting. The specified column determines the sort order of the data.
+
+#### 3.2 Machine learning in BigQuery
+```
+1. select the features and label from raw table
+2. create a table with appropriate schema for ML from the selected features 
+3. create the model (i.e., CREATE OR REPLACE MODEL '<project_id>.<bg_dataset>.<model_name>'): 
+	- options:
+	  model_type = 
+	  input_label_cols = 
+	  data_split_method = ‘auto_split’ as
+	  select * from <table>
+4. check the features (i.e., ML.FEATURE_INFO(MODEL '<project_id>.<bg_dataset>.<model_name>'))
+4. evaluate the model (i.e., ML.EVALUATE(MODEL '<project_id>.<bg_dataset>.<model_name>'))
+5. predict the model (i.e., ML.PREDICT(MODEL '<project_id>.<bg_dataset>.<model_name>'))
+6. Predict and explain the model: shows the top_k_features (i.e., ML.EXPLAIN_PREDICT(MODEL '<project_id>.<bg_dataset>.<model_name>')) 
+Also supports hyper parameter tuning 
+```
+#### 3.3 Model deployment using the TensorFlow Serving library and make a prediction using HTTP request
+Log in to GCP
+
+```
+gcloud auth login
+```
+Export the model to GCS from BigQuery
+
+```
+bq --project_id <project_id> \
+extract -m <bq_dataset>.<model_name> gs://<bucket>/<model name> 
+```
+Create a model folder in `/tmp`
+
+```
+mkdir /tmp/model
+```
+Copy model from GCS to `/tmp` using the `gsutil` tool to access GCS. The `gsutil` tool is a legacy Cloud Storage CLI. GCS is mapped to the `/tmp` directory first
+
+```
+gsutil cp -r gs://<bucket>/<model_name> /tmp/model
+```
+
+Create specified local directory for the model, version 1
+
+```
+mkdir -p serving_dir/<model_name>/1
+```
+Copy the model from `/tmp` to specified local directory
+
+```
+cp -r /tmp/model/<model name>/* $(pwd)/serving_dir/<model_name>/1
+```
+
+Get the serving library using docker
+
+```
+docker pull tensorflow/serving
+```
+Create and run a docker container of the model using local server
+
+```
+docker run -p 8501:8501 \
+--mount type=bind,source=$(pwd)/serving_dir/<model_name>,target=/models/<model_name> \
+-e MODEL_NAME=<model_name> \
+-t tensorflow/serving
+```
+Use HTTP GET request method to get the model information
+
+```
+curl -X GET http://localhost:8501/v1/models/<model_name>
+```
+
+Use HTTP POST request method to request that the server accepts the data and make a prediction
+
+```
+curl -d '{"instances": [{"passenger_count":1, "trip_distance":12.2, "PULocationID":"193", "DOLocationID":"264", "payment_type":"2","fare_amount":20.4,"tolls_amount":0.0}]}' \
+-X POST http://localhost:8501/v1/models/<model_name>:predict
 ```
 
 
