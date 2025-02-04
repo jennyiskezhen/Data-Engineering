@@ -1,3 +1,0 @@
-## dbt
-dbt best practices.
-
