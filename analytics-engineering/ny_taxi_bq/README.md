@@ -1,3 +1,1 @@
-## dbt
-dbt best practices.
-
+#### dbt details
