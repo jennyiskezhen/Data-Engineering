@@ -191,4 +191,38 @@ curl -d '{"instances": [{"passenger_count":1, "trip_distance":12.2, "PULocationI
 -X POST http://localhost:8501/v1/models/<model_name>:predict
 ```
 
+### 4. Data Analytics Engineering
+I first set up the dbt environment by connecting to the BigQuery data Warehouse and linking to my GitHub repository.
 
+####  4.1 dbt development
+
+**Background set-up**:
+
+- Specify a macro file that can be applied to all models
+- Install package `dbt_utils` to generate unique id using md5 hash and package `codegen` to generate a template model automatically 
+- Create a variable in the model to limit number of rows processed
+
+**dbt Models**:
+
+- Models for green and yellow type taxi data staging table, respectively
+- a model for pickup and drop-off location lookup table
+- a model to join the above three tables
+
+**Add tests to ensure data quality**:
+
+- id is unique and not_null
+- join table has the same join_id from separate tables
+- only has the accepted values
+
+####  4.2 dbt deployment
+- Added development environment and scheduled a recurring job
+- In the development environment, I created a new job to enable CI/CD on pull requests to allow automatic deployment while updating the changes
+
+####  4.3 Data visualization using Google Looker Studio
+I loaded the data source created by using dbt into the Looker Studio. Then I created graphics to show:
+
+- controls to select record period and taxi service type
+- pie chart of service type distribution
+- time-series of taxi ride counts by different service types
+- bar chart of monthly taxi ride counts by different service types
+- table showing the taxi ride counts starting at different locations
