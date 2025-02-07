@@ -215,8 +215,8 @@ I first set up the dbt environment by connecting to the BigQuery data Warehouse 
 - only has the accepted values
 
 ####  4.2 dbt deployment
-- Added development environment and scheduled a recurring job
-- In the development environment, I created a new job to enable CI/CD on pull requests to allow automatic deployment while updating the changes
+- Added a production environment and scheduled a recurring job
+- In the production environment, I also created a new job to enable CI/CD on pull requests to allow automatic deployment while updating the changes
 
 ####  4.3 Data visualization using Google Looker Studio
 I loaded the data source created by using dbt into the Looker Studio. Then I created graphics to show:
