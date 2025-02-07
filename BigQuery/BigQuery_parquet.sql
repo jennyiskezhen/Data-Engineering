@@ -53,5 +53,5 @@ where date(tpep_dropoff_datetime) between '2024-03-01' and '2024-03-15';
 
 -- retrive count all from opt parquet dataset has 0 byte proccesed
 select count(*)
-from ny-taxi-jenny.zoomcamp.green_tripdata_opt 
+from ny-taxi-jenny.zoomcamp.yellow_tripdata_opt 
 ;
