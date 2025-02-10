@@ -7,6 +7,7 @@
 with tripdata as 
 (
   select *,
+    -- add order by
     row_number() over(partition by vendorid, lpep_pickup_datetime 
                       order by fare_amount, pulocationid,lpep_dropoff_datetime) as rn
   from {{ source('staging','green_tripdata') }}
