@@ -8,6 +8,7 @@ sources:
     tables: 
       - name: green_tripdata
       - name: yellow_tripdata
+      - name: fhv_tripdata
 
 models:
   - name: stg_green_tripdata
@@ -201,5 +202,50 @@ models:
         description: ""
 
       - name: payment_type_description
+        data_type: string
+        description: ""
+
+  - name: stg_fhv_tripdata
+    description: ""
+    columns:
+      - name: tripid
+        data_type: string
+        description: ""
+
+      - name: pickup_locationid
+        data_type: int64
+        description: ""
+        tests:
+          - relationships:
+              field: locationid
+              to: ref('taxi_zone_lookup')
+              severity: warn
+
+      - name: dropoff_locationid
+        data_type: int64
+        description: ""
+        tests:
+          - relationships:
+              field: locationid
+              to: ref('taxi_zone_lookup')
+              severity: warn
+
+      - name: pickup_datetime
+        data_type: timestamp
+        description: ""
+
+      - name: dropoff_datetime
+        data_type: timestamp
+        description: ""
+
+      - name: sr_flag
+        data_type: int64
+        description: ""
+
+      - name: dispatching_base_num
+        data_type: string
+        description: ""
+
+      - name: affiliated_base_number
         data_type: string
         description: ""
