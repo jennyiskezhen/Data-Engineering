@@ -216,12 +216,13 @@ I first set up the dbt environment by connecting to the BigQuery data Warehouse 
 
 ####  4.2 dbt deployment
 - Added a production environment and scheduled a recurring job
-- In the production environment, I also created a new job to enable CI/CD on pull requests to allow automatic deployment while updating the changes
+- Created a CI job to test the models before integrated in the GitHub repository
+- Created a CD job to deploy the model after the git pull request is merged
 
 ####  4.3 Data visualization using Google Looker Studio
 I loaded the data source created by using dbt into the Looker Studio. Then I created graphics to show:
 
-- controls to select record period and taxi service type
+- controls to select record period
 - pie chart of service type distribution
 - time-series of taxi ride counts by different service types
 - bar chart of monthly taxi ride counts by different service types

@@ -13,6 +13,10 @@ The datasets used are:
 - fhv data
 - Pick-up and Drop-off location lookups
 
-Raw data were first uploaded to BigQuery using Kestra backfill, then the datasets were processed and joined using dbt. The final dataset for analysis is maintained by a CI process for data transformation updates, a CD process for automatic deployment after the code change, and a recurring schedule for including new data. 
+Raw data were first uploaded to BigQuery using Kestra backfill, then the datasets were processed and joined using dbt. The final dataset for analysis is maintained by 
+
+- a CI process for data transformation updates
+- a CD process for automatic deployment after the code change
+- a recurring schedule for including new data in the future
 
 

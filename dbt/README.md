@@ -14,9 +14,18 @@ When connecting BigQuery dataset to the dbt project, it is important to keep the
 `Dbt deps` - to install the packages <br>
 `Det docs generate` - to generation documentation <br>
 
+Build the fact_trips model and its parents and children with all the data
+
 ```
 dbt build --select +fact_trips+ --vars '{'is_test_run': 'false'}'
 ```
+Build all models with all the data
 
-Where `+fact_trips+` means both parents and children of the fact_trips model
+```
+dbt build --vars '{'is_test_run': 'false'}'
+```
+Build only the different models compared to the last run of the production environment and their children
 
+```
+dbt build --select state:modified+
+```
