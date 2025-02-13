@@ -227,3 +227,27 @@ I loaded the data source created by using dbt into the Looker Studio. Then I cre
 - time-series of taxi ride counts by different service types
 - bar chart of monthly taxi ride counts by different service types
 - table showing the taxi ride counts starting at different locations
+
+### 5. ETL from APIs using dlt - data load tool
+
+Conduct data ETL for data stored in APIs using dlt
+
+```
+# definition of the resource to only add new data
+@dlt.resource(name="rides", write_disposition="append")
+def ny_taxi(cursor_date = dlt.sources.incremental("Trip_Pickup_DateTime")):
+    client = RESTClient(
+        base_url="https://...",
+        paginator=PageNumberPaginator(base_page=1,total_path=None))
+
+    for page in client.paginate("api_name"):
+        yield page
+
+# define dlt pipeline
+pipeline = dlt.pipeline(pipeline_name="", destination="duckdb", dataset_name="")
+
+# run the pipeline with the resources and load to destination
+load_info = pipeline.run(ny_taxi)
+print(load_info)
+```
+
