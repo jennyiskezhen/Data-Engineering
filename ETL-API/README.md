@@ -1,4 +1,4 @@
-## ETL using APIs
+## Data ETL from APIs
 
 REST APIs (Representational State Transfer Application Programming Interfaces) allow you to extract structured data using HTTP requests (GET, POST, PUT, DELETE). 
 
@@ -7,15 +7,15 @@ Challenges with REST APIs are:
 - Rate limits: many APIs limit the number of requests one can make in a certain time frame
 - Authentication: many APIs require an API key or token to access data
 - Pagination: many APIs return data in chunks (or pages). To retrieve all the data, one needs to make multiple requests for all the pages until the last one
-- Memory usage control
+- Limited Memory requires usage control
 
-### Extracting data from API using the `requests` library
-In python, one can use the `requests` library to extract the data from APIs. This includes creating a generator that go through all pages of data.
+### Extracting data from APIs using the `requests` library
+In python, one can use the `requests` library to extract the data from APIs. This includes creating a generator that requests data page by page.
 
-Using this method the throughput is low, since data transfer is limited by API constraints.
+This method has low throughput, since data transfer is limited by API constraints such as rate limits and response time. 
 
 ### Loading data to DuckDB database
-A traditional basic pipeline requires:
+A basic pipeline requires:
 
 - Setting up a database connection
 - Creating tables and defining schemas manually
