@@ -25,7 +25,9 @@ select
     fhv_tripdata.dropoff_datetime, 
     fhv_tripdata.sr_flag, 
     fhv_tripdata.dispatching_base_num,
-    fhv_tripdata.affiliated_base_number
+    fhv_tripdata.affiliated_base_number,
+    extract(year from date(fhv_tripdata.pickup_datetime)) as year,
+    extract(month from date(fhv_tripdata.pickup_datetime)) as month
 from fhv_tripdata
 inner join dim_zones as pickup_zone
 on fhv_tripdata.pickup_locationid = pickup_zone.locationid
