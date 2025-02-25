@@ -50,7 +50,15 @@ select trips_unioned.tripid,
     trips_unioned.improvement_surcharge, 
     trips_unioned.total_amount, 
     trips_unioned.payment_type, 
-    trips_unioned.payment_type_description
+    trips_unioned.payment_type_description,
+    extract(year from date(trips_unioned.pickup_datetime)) as year,
+    extract(quarter from date(trips_unioned.pickup_datetime)) as quarter, 
+    case when extract(quarter from date(trips_unioned.pickup_datetime)) = 1 then concat(extract(year from date(trips_unioned.pickup_datetime)), '/Q1')
+         when extract(quarter from date(trips_unioned.pickup_datetime)) = 2 then concat(extract(year from date(trips_unioned.pickup_datetime)), '/Q2')
+         when extract(quarter from date(trips_unioned.pickup_datetime)) = 3 then concat(extract(year from date(trips_unioned.pickup_datetime)), '/Q3')
+         else concat(extract(year from date(trips_unioned.pickup_datetime)), '/Q4')
+    end as year_quarter,
+    extract(month from date(trips_unioned.pickup_datetime)) as month
 from trips_unioned
 inner join dim_zones as pickup_zone
 on trips_unioned.pickup_locationid = pickup_zone.locationid
