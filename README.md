@@ -251,3 +251,43 @@ load_info = pipeline.run(ny_taxi)
 print(load_info)
 ```
 
+### 6. Batch processing using Spark
+
+I set up a GCP VM to download java and Spark for Linux.<br>
+In the `.bashrc` file I added the java and spark to the home directory. I also added PySpark to `PYTHONPATH`.
+
+```
+export JAVA_HOME="${HOME}/spark/jdk-11.0.2"
+export PATH="${JAVA_HOME}/bin:${PATH}"
+
+export SPARK_HOME="${HOME}/spark/spark-3.3.2-bin-hadoop3"
+export PATH="${SPARK_HOME}/bin:${PATH}"
+
+export PYTHONPATH="${SPARK_HOME}/python/:$PYTHONPATH"
+export PYTHONPATH="${SPARK_HOME}/python/lib/py4j-0.10.9.7-src.zip:$PYTHONPATH"
+```
+
+#### 6.1 Spark Internal
+- Create Spark cluster 
+- Read raw data with specified schema
+- Save processed data using partition
+- Create temporary view table
+- Perform sql using PySpark
+- Join table and group by features
+
+#### 6.2 Start a local spark cluster 
+- Start Spark master and worker using bash
+- Make the read.parquet python file configurable using argparse
+- Run the read.parquet file using Python 
+- Specify the master outside of the python script using `spark-submit`
+
+#### 6.3 Start a spark cluster in the cloud (GCP)
+- Connect Spark jobs to GCS using GCS connector in `07_spark_gcs.ipynb`
+  1. Credentials
+  2. Spark context
+  3. Spark session builder
+  4. Spark read parquet GCS bucket location
+- Set up a Dataproc Cluster in GCP
+- Copy python local parquet and BigQuery scripts to GCS
+- Using cloud sdk to submit a spark job to local storage
+- Using cloud sdk to submit a spark job to BigQuery
