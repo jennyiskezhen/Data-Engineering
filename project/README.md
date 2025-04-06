@@ -15,7 +15,7 @@ Batch processing is used for dataset ingestion. Data is ingested to GCS using th
 Data table is clustered based on the Delivery Delay feature since it is used for ordering and sorting the data.
 
 ### Dashboard
-A dashboard is created to show the interactions among the influencing factors: <https://lookerstudio.google.com/s/uYjlnmPLsiw>
+A dashboard is created to show the interactions between the influencing factors and the production defects: <https://lookerstudio.google.com/s/uYjlnmPLsiw>
 
 Viewers can control the data range by selecting the data associated with either low or high defects. The dashboard shows four charts:
 
