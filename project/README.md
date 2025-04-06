@@ -4,7 +4,6 @@
 
 This project explores the factors influencing product defect rates in a manufacturing environment. Each record in the dataset represents various influencing factors for predicting high (1) or low (0) defect occurrences in production processes.
 
-
 ### Cloud
 The project is developed in GCP and IaC tool (i.e., Terraform) is used to create the GCS bucket (ny-taxi-jenny-manufacturing) and BigQuery DWH dataset (manufacture)
 
@@ -16,7 +15,7 @@ Batch processing is used for dataset ingestion. Data is ingested to GCS using th
 Data table is clustered based on the Delivery Delay feature since it is used for ordering and sorting the data.
 
 ### Dashboard
-A dashboard is created to show the interactions among the influencing factors. 
+A dashboard is created to show the interactions among the influencing factors: <https://lookerstudio.google.com/s/uYjlnmPLsiw>
 
 Viewers can control the data range by selecting the data associated with either low or high defects. The dashboard shows four charts:
 
